@@ -1,5 +1,8 @@
 import React, { Component } from "react";
 import axios from "axios";
+import "./App.css";
+import logo from "./simpsons.svg";
+import Character from "./components/Character";
 class App extends Component {
   state = {};
   async componentDidMount() {
@@ -10,7 +13,14 @@ class App extends Component {
   }
   render() {
     if (this.state.apiData) {
-      return <h1>API Data is loaded, now do the homework!</h1>;
+      return (
+        <>
+          <img className="logo" src={logo} alt="logo"></img>
+          {this.state.apiData.map((character, index) => {
+            return <Character key={index} simpson={character} />;
+          })}
+        </>
+      );
     }
     return <h1>Loading.....</h1>;
   }
