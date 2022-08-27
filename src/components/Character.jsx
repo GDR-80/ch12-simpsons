@@ -7,26 +7,30 @@ class Character extends Component {
   render() {
     //console.log(this.props.title.characterDirection);
     return (
-      <div className="character">
-        <Name name={this.props.simpson.character} />
-        {this.props.simpson.characterDirection === "Right" ? (
-          <>
-            <Quote quotation={this.props.simpson.quote} />
-            <Image
-              url={this.props.simpson.image}
-              alt={this.props.simpson.character}
-            />
-          </>
-        ) : (
-          <>
-            <Image
-              url={this.props.simpson.image}
-              alt={this.props.simpson.character}
-            />
-            <Quote quotation={this.props.simpson.quote} />
-          </>
-        )}
-      </div>
+      <>
+        <div className="character">
+          <div className="container character_grid">
+            <Name name={this.props.simpson.character} />
+            {this.props.simpson.characterDirection === "Right" ? (
+              <>
+                <Quote quotation={this.props.simpson.quote} />
+                <Image
+                  url={this.props.simpson.image}
+                  alt={this.props.simpson.character}
+                />
+              </>
+            ) : (
+              <>
+                <Image
+                  url={this.props.simpson.image}
+                  alt={this.props.simpson.character}
+                />
+                <Quote quotation={this.props.simpson.quote} />
+              </>
+            )}
+          </div>
+        </div>
+      </>
     );
   }
 }
