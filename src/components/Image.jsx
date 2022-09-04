@@ -2,7 +2,8 @@ import React, { Component } from "react";
 
 class Image extends Component {
   render() {
-    return <img src={this.props.url} alt={this.props.alt} />;
+    const { url, alt } = this.props;
+    return <img src={url} alt={alt} />;
   }
 }
 

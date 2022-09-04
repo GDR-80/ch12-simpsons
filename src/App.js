@@ -1,28 +1,93 @@
 import React, { Component } from "react";
 import axios from "axios";
 import "./App.css";
+import Simpsons from "./simspons.json";
 import logo from "./simpsons.svg";
 import Character from "./components/Character";
+import Actions from "./components/Actions";
+import { findById, calcTotalLikes } from "./utils";
+import Header from "./components/Header";
 class App extends Component {
   state = {};
   async componentDidMount() {
-    const apiData = await axios.get(
-      "https://thesimpsonsquoteapi.glitch.me/quotes?count=50"
-    );
-    this.setState({ apiData: apiData.data });
-  }
-  render() {
-    if (this.state.apiData) {
-      return (
-        <>
-          <img className="logo" src={logo} alt="logo"></img>
-          {this.state.apiData.map((character, index) => {
-            return <Character key={index} simpson={character} />;
-          })}
-        </>
+    try {
+      const apiData = await axios.get(
+        "https://thesimpsonsquoteapi.glitch.me/quotes?count=50"
       );
+
+      apiData.data.forEach((element, index) => {
+        element.id = index;
+      });
+
+      this.setState({ apiData: apiData.data });
+    } catch (error) {
+      console.log(error);
+
+      Simpsons.forEach((element, index) => {
+        element.id = index;
+      });
+
+      this.setState({ apiData: Simpsons });
     }
-    return <h1>Loading.....</h1>;
+  }
+
+  onLike = (id) => {
+    const index = findById(id, this.state.apiData);
+
+    const apiData = [...this.state.apiData];
+
+    //toggle like even if it starts at undefined
+    if (apiData[index].liked === true) {
+      apiData[index].liked = false;
+    } else {
+      apiData[index].liked = true;
+    }
+
+    this.setState({ apiData });
+  };
+
+  onDelete = (id) => {
+    const index = findById(id, this.state.apiData);
+    const apiData = [...this.state.apiData];
+
+    apiData.splice(index, 1);
+
+    this.setState({ apiData: apiData });
+  };
+
+  onInput = (e) => {
+    this.setState({ [e.target.name]: e.target.value.toLowerCase() });
+  };
+
+  render() {
+    const { apiData, search } = this.state;
+    if (apiData === undefined) {
+      return <h1>Loading.....</h1>;
+    }
+
+    const total = calcTotalLikes(apiData);
+
+    let filtered = [...apiData];
+    filtered = filtered.filter((char) => {
+      return char.character.toLowerCase().includes(search);
+    });
+
+    const result = filtered.length > 0 ? filtered : apiData;
+
+    return (
+      <>
+        <Header logo={logo} />
+        <Actions total={total} onInput={this.onInput} />
+        {result.map((character) => (
+          <Character
+            key={character.id}
+            simpson={character}
+            onDelete={this.onDelete}
+            onLike={this.onLike}
+          />
+        ))}
+      </>
+    );
   }
 }
 export default App;
