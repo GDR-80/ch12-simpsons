@@ -17,8 +17,13 @@ h1 {
   text-align: center;
 }
 
+input {
+  font-family: inherit;
+}
+
 .logo {
   display: block;
+  width: 20rem;
   max-width: 100%;
   margin: 0 auto 3rem auto;
 }
@@ -38,20 +43,32 @@ img {
   width: 100%;
   justify-content: center;
   align-items: center;
+  margin-bottom: 2rem;
 }
 
 .search_box {
   width: 80%;
-  margin: 0 1rem 1rem 0;
+  margin: 0 1rem 0 0;
   padding: 1rem 1rem;
   border: 0;
-  border-radius: 3px;
+  border-radius: 0.3rem;
   outline: none;
   font-size: 1.1rem;
 }
 
 .search_box::placeholder {
   text-align: center;
+}
+
+.like_count {
+  display: flex;
+  align-items: center;
+  color: var(--white);
+  font-size: 2.4rem;
+}
+
+.like_count i {
+  margin-right: 0.5rem;
 }
 
 .character {
@@ -105,18 +122,6 @@ i:hover {
   margin-right: 2rem;
 }
 
-.like_count {
-  display: flex;
-  align-items: center;
-  color: var(--white);
-  font-size: 2.4rem;
-  margin-bottom: 1rem;
-}
-
-.like_count i {
-  margin-right: 1rem;
-}
-
 .liked {
   color: var(--liked);
 }
@@ -125,7 +130,53 @@ i:hover {
   color: var(--liked);
 }
 
+.loading {
+  margin: 0 auto;
+  width: 50%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.hourglass {
+  display: inline-block;
+  position: relative;
+  width: 8rem;
+  height: 8rem;
+}
+.hourglass:after {
+  content: " ";
+  display: block;
+  border-radius: 50%;
+  width: 0;
+  height: 0;
+  margin: 0.8rem;
+  box-sizing: border-box;
+  border: 32px solid var(--white);
+  border-color: var(--white) transparent var(--white) transparent;
+  animation: hourglass 1.2s infinite;
+}
+@keyframes hourglass {
+  0% {
+    transform: rotate(0);
+    animation-timing-function: cubic-bezier(0.55, 0.055, 0.675, 0.19);
+  }
+  50% {
+    transform: rotate(900deg);
+    animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+  }
+  100% {
+    transform: rotate(1800deg);
+  }
+}
+
 @media screen and (min-width: 992px) {
+  .logo {
+    width: 30rem;
+  }
+
   .action_holder {
     flex-direction: row;
   }

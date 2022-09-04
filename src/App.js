@@ -3,10 +3,11 @@ import axios from "axios";
 import "./App.css";
 import Simpsons from "./simspons.json";
 import logo from "./simpsons.svg";
+import Header from "./components/Header";
 import Character from "./components/Character";
 import Actions from "./components/Actions";
 import { findById, calcTotalLikes } from "./utils";
-import Header from "./components/Header";
+
 class App extends Component {
   state = {};
   async componentDidMount() {
@@ -15,17 +16,13 @@ class App extends Component {
         "https://thesimpsonsquoteapi.glitch.me/quotes?count=50"
       );
 
-      apiData.data.forEach((element, index) => {
-        element.id = index;
-      });
+      apiData.data.forEach((element, index) => (element.id = index));
 
       this.setState({ apiData: apiData.data });
     } catch (error) {
       console.log(error);
 
-      Simpsons.forEach((element, index) => {
-        element.id = index;
-      });
+      Simpsons.forEach((element, index) => (element.id = index));
 
       this.setState({ apiData: Simpsons });
     }
@@ -42,6 +39,8 @@ class App extends Component {
     } else {
       apiData[index].liked = true;
     }
+
+    console.log(apiData.liked);
 
     this.setState({ apiData });
   };
@@ -62,15 +61,19 @@ class App extends Component {
   render() {
     const { apiData, search } = this.state;
     if (apiData === undefined) {
-      return <h1>Loading.....</h1>;
+      return (
+        <div className="loading">
+          <h1>Loading Characters</h1>
+          <div className="hourglass"></div>
+        </div>
+      );
     }
 
     const total = calcTotalLikes(apiData);
 
-    let filtered = [...apiData];
-    filtered = filtered.filter((char) => {
-      return char.character.toLowerCase().includes(search);
-    });
+    const filtered = [...apiData].filter((c) =>
+      c.character.toLowerCase().includes(search)
+    );
 
     const result = filtered.length > 0 ? filtered : apiData;
 

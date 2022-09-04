@@ -2,10 +2,10 @@ import React, { Component } from "react";
 class Header extends Component {
   render() {
     return (
-      <div>
+      <header>
         {" "}
         <img className="logo" src={this.props.logo} alt="logo" />
-      </div>
+      </header>
     );
   }
 }
